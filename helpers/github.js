@@ -1,5 +1,6 @@
 const request = require('request');
 const config = require('../example.js');
+const database = require('../database/index.js')
 
 let getReposByUsername = (userName) => {
   // TODO - Use the request module to request repos for a specific
@@ -16,7 +17,9 @@ let getReposByUsername = (userName) => {
   request(options, (error, response, body) => {
     console.error(error)
     console.log('statusCode:', response.statusCode);
-    console.log('body', body)
+    let report = JSON.parse(body);
+    database.save(report);
+
   })
 
 
