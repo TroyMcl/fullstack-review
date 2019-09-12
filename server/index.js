@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const helpers = require('../helpers/github.js')
 let app = express();
+
 
 // mongoose.connect('mongodb://localhost/github', {useNewUrlParser: true});
 
@@ -11,12 +14,12 @@ let app = express();
 // });
 
 app.use(express.static(__dirname + '/../client/dist'));
+app.use(bodyParser.urlencoded());
 
 app.post('/repos', function (req, res) {
   // TODO - your code here!
-  // This route should take the github username provided
-  // and get the repo information from the github API, then
-  // save the repo information in the database
+  console.log('request sent', req.body.user)
+  helpers.getReposByUsername(req.body.user)
 });
 
 app.get('/repos', function (req, res) {

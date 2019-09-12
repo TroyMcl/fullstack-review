@@ -15,7 +15,12 @@ class App extends React.Component {
 
   search (term) {
     console.log(`${term} was searched`);
-    // create a async POST req to server
+    $.post({
+      url: 'http://localhost:1128/repos',
+      data: {user:term},
+      success: (results) => console.log(results),
+      datatype: 'json',
+    })
   }
 
   render () {
