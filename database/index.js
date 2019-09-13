@@ -32,12 +32,12 @@ let save = (repos) => {
         console.log(res);
     })
 
-    // new Promise ((resolve, reject) => {
-    //   doc.save((err) => {
-    //     console.log(err)
-    //   })
-    // })
-  }
+  //   new Promise ((resolve, reject) => {
+  //     doc.save((err) => {
+  //       console.log(err)
+  //     })
+  //   })
+  // }
 }
 
 module.exports.save = save;

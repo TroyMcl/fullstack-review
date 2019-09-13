@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const helpers = require('../helpers/github.js')
+const database = require('../database/index.js')
 let app = express();
 
 
@@ -19,7 +20,8 @@ app.use(bodyParser.urlencoded());
 app.post('/repos', function (req, res) {
   // TODO - your code here!
   console.log('request sent', req.body.user)
-  helpers.getReposByUsername(req.body.user)
+  let repos = helpers.getReposByUsername(req.body.user, database.save)
+
 });
 
 app.get('/repos', function (req, res) {
