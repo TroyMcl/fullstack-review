@@ -15,7 +15,7 @@ let getReposByUsername = (userName, cb) => {
   };
 
   request(options, (error, response, body) => {
-    console.error(error)
+    console.error('helpers line 18',error)
     console.log('statusCode:', response.statusCode);
     let report = JSON.parse(body);
     cb(report);

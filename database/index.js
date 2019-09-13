@@ -9,7 +9,7 @@ let repoSchema =  new mongoose.Schema({
   repo_url: String,
   size: Number,
   watchers: Number,
-  forks_count: Number,
+  forks_count: Number
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
@@ -24,20 +24,30 @@ let save = (repos) => {
     repo_url: repos[i].html_url,
     size: repos[i].size,
     watchers: repos[i].watchers,
-    forks_count: repos[i].forks,
+    forks_count: repos[i].forks
     });
 
-    new Promise ((res, reject) => {
-      Repo.updateOne({repo_id: doc.repo_id}, {doc:doc}, {upsert:true})
-        console.log(res);
+    Repo.find({repo_id: doc.repo_id}, (err, res) => {
+      if (err) {
+        console.error(err)
+      } else {
+        if (res.length === 0) {
+          console.log('did not find in db', res)
+          new Promise ((resolve, reject) => {
+            doc.save((err) => {
+              if (err) {
+                reject(err)
+              } else {
+                resolve(console.log('doc added to database'))
+              }
+            })
+          })
+        } else  {
+          console.log('file found in db')
+        }
+      }
     })
-
-  //   new Promise ((resolve, reject) => {
-  //     doc.save((err) => {
-  //       console.log(err)
-  //     })
-  //   })
-  // }
+  }
 }
 
 module.exports.save = save;
