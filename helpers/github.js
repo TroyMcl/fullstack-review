@@ -19,10 +19,25 @@ let getReposByUsername = (userName, cb) => {
     console.log('statusCode:', response.statusCode);
     let report = JSON.parse(body);
     cb(report);
-
   })
-
 
 }
 
+//access repos array return array of top 25 results
+  //loop through array
+  //check size prop of array
+let filterRepos = (repos) => {
+  console.log(typeof repos)
+  console.log(repos[2].size)
+  for (let i =0; i < repos.length; i++) {
+    let obj = {
+      name: repos[i].user_name,
+      url: repos[i].repo_url,
+      size: repos[i].size,
+    }
+    console.log(obj)
+  }
+}
+
 module.exports.getReposByUsername = getReposByUsername;
+module.exports.filterRepos = filterRepos;

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
+const helpers = require('../helpers/github.js')
 mongoose.connect('mongodb://localhost/fetcher');
 //needs prop to sort repo list handle real time updates
 let repoSchema =  new mongoose.Schema({
@@ -50,4 +51,18 @@ let save = (repos) => {
   }
 }
 
+let fetch = () => {
+  let repos = Repo.find((error, res) => {
+    if (error) {
+      console.log(error)
+    } else {
+      console.log('docs read')
+      helpers.filterRepos(res)
+    }
+  })
+}
+
+
+
 module.exports.save = save;
+module.exports.fetch = fetch;
