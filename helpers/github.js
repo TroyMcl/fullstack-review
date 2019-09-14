@@ -23,21 +23,51 @@ let getReposByUsername = (userName, cb) => {
 
 }
 
-//access repos array return array of top 25 results
-  //loop through array
-  //check size prop of array
 let filterRepos = (repos) => {
-  console.log(typeof repos)
-  console.log(repos[2].size)
+  let res = []
   for (let i =0; i < repos.length; i++) {
     let obj = {
       name: repos[i].user_name,
+      repo_name: repos[i].repo_name,
       url: repos[i].repo_url,
       size: repos[i].size,
     }
-    console.log(obj)
+    res.push(obj)
   }
+  let sorted = mergeSort(res);
+  sorted = sorted.splice(0, 24)
+  return sorted;
 }
+var mergeSort = function(array) {
+  if (array.length <= 1) {
+    return array
+  }
+  let middle = Math.floor(array.length/2);
+  let left = array.slice(0, middle);
+  let right = array.slice(middle);
+
+  return sort(mergeSort(left),mergeSort(right));
+};
+
+let sort = (leftArray, rightArray) => {
+  let resArray = [];
+  let leftCount = 0;
+  let rightCount = 0;
+
+  while (leftCount <  leftArray.length && rightCount < rightArray.length) {
+    if (leftArray[leftCount].size > rightArray[rightCount].size) {
+      resArray.push(leftArray[leftCount]);
+      leftCount++
+    } else {
+      resArray.push(rightArray[rightCount]);
+      rightCount++
+    }
+  }
+  return resArray.concat(leftArray.slice(leftCount).concat(rightArray.slice(rightCount)))
+
+}
+
+
 
 module.exports.getReposByUsername = getReposByUsername;
 module.exports.filterRepos = filterRepos;

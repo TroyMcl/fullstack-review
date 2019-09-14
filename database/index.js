@@ -51,13 +51,13 @@ let save = (repos) => {
   }
 }
 
-let fetch = () => {
-  let repos = Repo.find((error, res) => {
+let fetch = (cb) => {
+  let repos = Repo.find({}, (error, res) => {
     if (error) {
-      console.log(error)
+      cb(error,null)
     } else {
       console.log('docs read')
-      helpers.filterRepos(res)
+      cb(null, helpers.filterRepos(res))
     }
   })
 }
