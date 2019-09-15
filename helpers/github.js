@@ -18,7 +18,11 @@ let getReposByUsername = (userName, cb) => {
     console.error('helpers line 18',error)
     console.log('statusCode:', response.statusCode);
     let report = JSON.parse(body);
-    cb(report);
+    if (error) {
+      cb(error)
+    } else {
+      cb(null, database.save(report))
+    }
   })
 
 }

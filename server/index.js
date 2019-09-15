@@ -19,8 +19,13 @@ app.use(bodyParser.urlencoded());
 
 app.post('/repos', function (req, res) {
   console.log('request sent', req.body.user)
-  let repos = helpers.getReposByUsername(req.body.user, database.save)
-
+  helpers.getReposByUsername(req.body.user, (err, code) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.send(code)
+    }
+  })
 });
 
 app.get('/repos', function (req, res) {
@@ -40,9 +45,3 @@ app.listen(port, function() {
   console.log(`listening on port ${port}`);
 });
 
-// new Promise (resolve, reject) => {
-//   let data = database.fetch();
-
-// }
-
-// res.json(data)
