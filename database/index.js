@@ -15,7 +15,8 @@ let repoSchema =  new mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (repos) => {
+let save = (repos, cb) => {
+  let count = 0;
 
   for(let i =0; i < repos.length; i++) {
     let doc = new Repo({
@@ -30,22 +31,21 @@ let save = (repos) => {
 
     Repo.find({repo_id: doc.repo_id}, (err, res) => {
       if (err) {
-        console.error(err)
+        cb(err)
       } else {
         if (res.length === 0) {
           console.log('did not find in db', res)
-          new Promise ((resolve, reject) => {
-            doc.save((err) => {
-              if (err) {
-                reject(err)
-              } else {
-                resolve(console.log('doc added to database'))
-              }
-            })
-          })
+          doc.save()
+          count++
+          console.log('added to db')
         } else  {
+          count++
           console.log('file found in db')
         }
+        if (count === repos.length ) {
+          cb(200)
+        }
+
       }
     })
   }

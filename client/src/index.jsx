@@ -21,7 +21,10 @@ class App extends React.Component {
       success: () => {$.get({
         url: 'http://localhost:1128/repos',
         datatype: 'json',
-        success: (data) =>{this.setState({repos:data})},
+        success: (data) =>{
+          console.log('should be re-rendering', data)
+          this.setState({repos: data}, () => {console.log(this.state.repos)})
+        },
       })},
       datatype: 'json',
     })

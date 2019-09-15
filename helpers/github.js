@@ -21,10 +21,11 @@ let getReposByUsername = (userName, cb) => {
     if (error) {
       cb(error)
     } else {
-      cb(null, database.save(report))
+      database.save(report, (res) => {
+        cb(res)
+      })
     }
   })
-
 }
 
 let filterRepos = (repos) => {
@@ -39,7 +40,7 @@ let filterRepos = (repos) => {
     res.push(obj)
   }
   let sorted = mergeSort(res);
-  sorted = sorted.splice(0, 24)
+  sorted = sorted.splice(0, 25)
   return sorted;
 }
 var mergeSort = function(array) {
